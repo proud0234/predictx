@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { useState } from "react";
+import { CommunityChatWidget } from "./components/CommunityChat";
 import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
@@ -58,6 +59,7 @@ function AppInner() {
       <Navbar currentPage={currentPage} onNavigate={navigate} />
       <main>{renderPage()}</main>
       <Footer />
+      <CommunityChatWidget />
       <Toaster
         theme="dark"
         toastOptions={{

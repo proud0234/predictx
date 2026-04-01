@@ -237,3 +237,142 @@ export const MOCK_PRICE_HISTORY = Array.from({ length: 30 }, (_, i) => ({
   yes: Math.max(0.1, Math.min(0.9, 0.5 + Math.sin(i * 0.4) * 0.15 + i * 0.005)),
   no: 0,
 })).map((d) => ({ ...d, no: 1 - d.yes }));
+
+// ALGO/USD OHLCV candlestick data (30 candles)
+const basePrice = 6.0;
+export const MOCK_OHLCV = Array.from({ length: 30 }, (_, i) => {
+  const trend = Math.sin(i * 0.3) * 0.8 + i * 0.02;
+  const open = +(basePrice + trend + (Math.random() - 0.5) * 0.4).toFixed(4);
+  const close = +(open + (Math.random() - 0.48) * 0.5).toFixed(4);
+  const high = +(Math.max(open, close) + Math.random() * 0.3).toFixed(4);
+  const low = +(Math.min(open, close) - Math.random() * 0.3).toFixed(4);
+  const volume = Math.floor(80000 + Math.random() * 120000);
+  const _hours = i * 4;
+  const d = new Date();
+  d.setHours(d.getHours() - (30 - i) * 4);
+  const label = `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}h`;
+  return {
+    time: label,
+    open,
+    high,
+    low,
+    close,
+    volume,
+    bullish: close >= open,
+  };
+});
+
+// Live orderbook — asks 6.01–7.00, bids 5.50–6.00, intentional overlap at 6.00
+export const MOCK_LIVE_ORDERS: {
+  side: "ask" | "bid";
+  price: number;
+  qty: number;
+  total: number;
+}[] = [
+  // ASKS (sellers) — ascending from 6.00
+  { side: "ask", price: 6.0, qty: 120, total: 720 },
+  { side: "ask", price: 6.05, qty: 85, total: 514.25 },
+  { side: "ask", price: 6.12, qty: 200, total: 1224 },
+  { side: "ask", price: 6.18, qty: 310, total: 1915.8 },
+  { side: "ask", price: 6.25, qty: 150, total: 937.5 },
+  { side: "ask", price: 6.33, qty: 95, total: 601.35 },
+  { side: "ask", price: 6.45, qty: 260, total: 1677 },
+  { side: "ask", price: 6.52, qty: 180, total: 1173.6 },
+  { side: "ask", price: 6.71, qty: 75, total: 503.25 },
+  { side: "ask", price: 6.9, qty: 140, total: 966 },
+  // BIDS (buyers) — descending from 6.00
+  { side: "bid", price: 6.0, qty: 110, total: 660 },
+  { side: "bid", price: 5.95, qty: 220, total: 1309 },
+  { side: "bid", price: 5.88, qty: 175, total: 1029 },
+  { side: "bid", price: 5.81, qty: 300, total: 1743 },
+  { side: "bid", price: 5.75, qty: 95, total: 546.25 },
+  { side: "bid", price: 5.68, qty: 410, total: 2328.8 },
+  { side: "bid", price: 5.62, qty: 130, total: 730.6 },
+  { side: "bid", price: 5.55, qty: 280, total: 1554 },
+  { side: "bid", price: 5.5, qty: 160, total: 880 },
+  { side: "bid", price: 5.42, qty: 90, total: 487.8 },
+];
+
+// Recent trades in ALGO
+export const MOCK_RECENT_TRADES = [
+  {
+    side: "buy" as const,
+    price: 6.0,
+    qty: 110,
+    time: "14:32:05",
+    buyer: "ALGO...X7K2",
+    seller: "ALGO...P4M8",
+  },
+  {
+    side: "sell" as const,
+    price: 5.98,
+    qty: 45,
+    time: "14:31:52",
+    buyer: "ALGO...Q3N1",
+    seller: "ALGO...Z2R5",
+  },
+  {
+    side: "buy" as const,
+    price: 6.03,
+    qty: 200,
+    time: "14:31:38",
+    buyer: "ALGO...W9L6",
+    seller: "ALGO...T8K3",
+  },
+  {
+    side: "sell" as const,
+    price: 5.95,
+    qty: 80,
+    time: "14:31:21",
+    buyer: "ALGO...B5J7",
+    seller: "ALGO...V1N4",
+  },
+  {
+    side: "buy" as const,
+    price: 6.07,
+    qty: 150,
+    time: "14:31:09",
+    buyer: "ALGO...E4H2",
+    seller: "ALGO...C6P9",
+  },
+  {
+    side: "buy" as const,
+    price: 6.05,
+    qty: 92,
+    time: "14:30:55",
+    buyer: "ALGO...D7M3",
+    seller: "ALGO...F2S8",
+  },
+  {
+    side: "sell" as const,
+    price: 5.92,
+    qty: 310,
+    time: "14:30:41",
+    buyer: "ALGO...G8Q5",
+    seller: "ALGO...H3R6",
+  },
+  {
+    side: "buy" as const,
+    price: 6.12,
+    qty: 65,
+    time: "14:30:28",
+    buyer: "ALGO...I1K4",
+    seller: "ALGO...J9T7",
+  },
+  {
+    side: "sell" as const,
+    price: 5.88,
+    qty: 180,
+    time: "14:30:14",
+    buyer: "ALGO...K6N2",
+    seller: "ALGO...L4W1",
+  },
+  {
+    side: "buy" as const,
+    price: 6.01,
+    qty: 250,
+    time: "14:29:59",
+    buyer: "ALGO...M2V8",
+    seller: "ALGO...N5U3",
+  },
+];
